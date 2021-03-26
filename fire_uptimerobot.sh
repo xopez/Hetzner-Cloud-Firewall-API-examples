@@ -3,7 +3,7 @@
 API_TOKEN="xxxx"
 FIREWALL_ID="xxxx"
 
-# get response codes
+# get response code
 response=$(curl --head --write-out '%{http_code}' --silent --output /dev/null https://uptimerobot.com/inc/files/ips/IPv4andIPv6.txt)
 
 if [ "$response" == "200" ]; then
