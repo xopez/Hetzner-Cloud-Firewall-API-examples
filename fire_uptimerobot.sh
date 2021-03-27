@@ -17,6 +17,7 @@ if [ "$response" == "200" ]; then
 	< /tmp/uptimerobot_IPv4andIPv6.txt grep "\." > /tmp/uptimerobot_IPv4.txt
 	< /tmp/uptimerobot_IPv4andIPv6.txt grep "\:" > /tmp/uptimerobot_IPv6.txt
 
+	# extend with CIDR
 	IPv4="\"$(sed ':a;N;$!ba;s/\n/\/32","/g' /tmp/uptimerobot_IPv4.txt)\/32\""
 	IPv6="\"$(sed ':a;N;$!ba;s/\n/\/128","/g' /tmp/uptimerobot_IPv6.txt)\/128\""
 
