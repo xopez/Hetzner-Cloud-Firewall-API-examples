@@ -2,9 +2,11 @@
 
 API_TOKEN="xxxx"
 FIREWALL_ID="xxxx"
-# multiple ports can be defined comma separated
-# PORTS="80,443"
+## multiple ports can be defined comma separated
+#PORTS="80,443"
 PORTS="443"
+PORTS="${PORTS//,/ }"
+PORTS=($PORTS)
 
 # get response codes
 responseipv4=$(curl --head --write-out '%{http_code}' --silent --output /dev/null https://www.cloudflare.com/ips-v4)
@@ -22,7 +24,9 @@ if [ "$responseipv4" == "200" ] && [ "$responseipv6" == "200" ]; then
 		-H "Content-Type: application/json" \
 		-d '{"name":"Cloudflare '"$(date +%d.%m.%Y)"' '"$(date +%T)"'"}' \
 		'https://api.hetzner.cloud/v1/firewalls/'$FIREWALL_ID
-	for PORT in $(echo "${PORTS//,/ }")
+
+	#for PORT in "${PORTS//,/ }}"
+	for PORT in "${PORTS[@]}"
 	do
 		curl \
 			-X POST \
