@@ -12,7 +12,9 @@ if [ "$responseipv4" == "200" ] && [ "$responseipv6" == "200" ]; then
 
 	curl https://www.cloudflare.com/ips-v4 -o /tmp/ips-v4
 	curl https://www.cloudflare.com/ips-v6 -o /tmp/ips-v6
-	IP_CF="\"$(sed ':a;N;$!ba;s/\n/","/g' /tmp/ips-v4)\",\"$(sed ':a;N;$!ba;s/\n/","/g' /tmp/ips-v6)\""
+
+	IPv4_CF="\"$(sed ':a;N;$!ba;s/\n/","/g' /tmp/ips-v4)\""
+	IPv6_CF="\"$(sed ':a;N;$!ba;s/\n/","/g' /tmp/ips-v6)\""
 
 	curl \
 		-X PUT \
@@ -25,6 +27,6 @@ if [ "$responseipv4" == "200" ] && [ "$responseipv6" == "200" ]; then
 		-X POST \
 		-H "Authorization: Bearer $API_TOKEN" \
 		-H "Content-Type: application/json" \
-		-d '{"rules":[{"direction":"in","source_ips":['"$IP_CF"'],"protocol":"tcp","port":"'"$PORT"'"}]}' \
+		-d '{"rules":[{"direction":"in","source_ips":['"$IPv4_CF"'],"protocol":"tcp","port":"'"$PORT"'"},{"direction":"in","source_ips":['"$IPv6_CF"'],"protocol":"tcp","port":"'"$PORT"'"}]}' \
 		'https://api.hetzner.cloud/v1/firewalls/'$FIREWALL_ID'/actions/set_rules'
 fi
