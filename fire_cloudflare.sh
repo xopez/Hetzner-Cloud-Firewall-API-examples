@@ -10,11 +10,11 @@ responseipv6=$(curl --head --write-out '%{http_code}' --silent --output /dev/nul
 
 if [ "$responseipv4" == "200" ] && [ "$responseipv6" == "200" ]; then
 
-	curl https://www.cloudflare.com/ips-v4 -o /tmp/ips-v4
-	curl https://www.cloudflare.com/ips-v6 -o /tmp/ips-v6
+	curl https://www.cloudflare.com/ips-v4 -o /tmp/cf_ips-v4
+	curl https://www.cloudflare.com/ips-v6 -o /tmp/cf_ips-v6
 
-	IPv4_CF="\"$(sed ':a;N;$!ba;s/\n/","/g' /tmp/ips-v4)\""
-	IPv6_CF="\"$(sed ':a;N;$!ba;s/\n/","/g' /tmp/ips-v6)\""
+	IPv4_CF="\"$(sed ':a;N;$!ba;s/\n/","/g' /tmp/cf_ips-v4)\""
+	IPv6_CF="\"$(sed ':a;N;$!ba;s/\n/","/g' /tmp/cf_ips-v6)\""
 
 	curl \
 		-X PUT \
