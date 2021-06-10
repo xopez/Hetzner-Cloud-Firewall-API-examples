@@ -25,7 +25,7 @@ if [ "$response" == "200" ]; then
 		-X PUT \
 		-H "Authorization: Bearer $API_TOKEN" \
 		-H "Content-Type: application/json" \
-		-d '{"name":"Uptimerobot '"$(date +%d.%m.%Y)"' '"$(date +%T)"'"}' \
+		-d '{"name":"Uptimerobot '"$(date +%d.%m.%Y)"' '"$(date +%R)"'"}' \
 		'https://api.hetzner.cloud/v1/firewalls/'$FIREWALL_ID
 
 	curl \
