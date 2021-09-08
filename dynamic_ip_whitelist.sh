@@ -2,7 +2,7 @@
 
 API_TOKEN=""
 FIREWALL_ID=""
-PORT="22"
+PORTS="22,23,24"
 
 # get IP addresses
 IPv4=$(curl --silent https://myip4.softcreatr.com/ | jq .ip)
@@ -19,6 +19,11 @@ else
         exit 0
 fi
 
+RULES=()
+for PORT in $(echo "${PORTS//,/ }"); do
+        RULES+=('{"direction":"in","source_ips":['"$IPS"'],"protocol":"tcp","port":"'"$PORT"'"}')
+done
+
 curl \
         -X PUT \
         -H "Authorization: Bearer $API_TOKEN" \
@@ -30,5 +35,5 @@ curl \
         -X POST \
         -H "Authorization: Bearer $API_TOKEN" \
         -H "Content-Type: application/json" \
-        -d '{"rules":[{"direction":"in","source_ips":['"$IPS"'],"protocol":"tcp","port":"'"$PORT"'"}]}' \
+        -d '{"rules":['"$(IFS=, ; echo "${RULES[*]}")"']}' \
         'https://api.hetzner.cloud/v1/firewalls/'$FIREWALL_ID'/actions/set_rules'
