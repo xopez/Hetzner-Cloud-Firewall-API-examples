@@ -29,11 +29,11 @@ curl \
     -H "Authorization: Bearer $API_TOKEN" \
     -H "Content-Type: application/json" \
     -d '{"name":"Dynamic IP Whitelist '"$(date +%d.%m.%Y)"' '"$(date +%R)"'"}' \
-    'https://api.hetzner.cloud/v1/firewalls/'$FIREWALL_ID
+    'https://api.hetzner.cloud/v1/firewalls/'"$FIREWALL_ID"
 
 curl \
     -X POST \
     -H "Authorization: Bearer $API_TOKEN" \
     -H "Content-Type: application/json" \
     -d '{"rules":['"$(IFS=, ; echo "${RULES[*]}")"']}' \
-    'https://api.hetzner.cloud/v1/firewalls/'$FIREWALL_ID'/actions/set_rules'
+    'https://api.hetzner.cloud/v1/firewalls/'"$FIREWALL_ID"'/actions/set_rules'
