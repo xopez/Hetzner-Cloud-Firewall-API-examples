@@ -8,11 +8,11 @@ PORTS="22,23,24"
 IPv4=$(curl --silent https://myip4.softcreatr.com/ | jq .ip)
 IPv6=$(curl --silent https://myip6.softcreatr.com/ | jq .ip)
 
-if [ ! -z "$IPv4" ] && [ ! -z "$IPv6" ]; then
+if [ -n "$IPv4" ] && [ -n "$IPv6" ]; then
     IPS="${IPv4::-1}"/32\","${IPv6::-1}"/128\"
-elif [ ! -z "$IPv4" ]; then
+elif [ -n "$IPv4" ]; then
     IPS="${IPv4::-1}"/32\"
-elif [ ! -z "$IPv6" ]; then
+elif [ -n "$IPv6" ]; then
     IPS="${IPv6::-1}"/128\"
 else
     echo "No IP address provided"
