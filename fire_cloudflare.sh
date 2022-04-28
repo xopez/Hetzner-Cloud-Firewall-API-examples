@@ -5,8 +5,8 @@ FIREWALL_ID="xxxx"
 PORTS="80,443"
 
 # get response codes
-responseipv4=$(curl --head --write-out '%{http_code}' --silent --output /dev/null https://www.cloudflare.com/ips-v4)
-responseipv6=$(curl --head --write-out '%{http_code}' --silent --output /dev/null https://www.cloudflare.com/ips-v6)
+responseipv4=$(curl --head --location --write-out '%{http_code}' --silent --output /dev/null https://www.cloudflare.com/ips-v4)
+responseipv6=$(curl --head --location --write-out '%{http_code}' --silent --output /dev/null https://www.cloudflare.com/ips-v6)
 
 if [ "$responseipv4" == "200" ] && [ "$responseipv6" == "200" ]; then
 
